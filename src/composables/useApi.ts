@@ -65,17 +65,45 @@ export const useApi = {
   get: <T = any>(url: string, options?: UseFetchOptions) =>
     useApiRequest<T>(url, { method: 'GET', ...options }),
 
-  post: <T = any>(url: string, payload?: any, options?: UseFetchOptions) =>
-    useApiRequest<T>(url, { method: 'POST', ...options }).json(payload),
+  post: <T = any>(url: string, payload?: any, options?: UseFetchOptions) => {
+    const instance = useApiRequest<T>(url, { method: 'POST', ...options })
+    if (payload) {
+      // Set the body for POST requests
+      return useApiRequest<T>(url, { 
+        method: 'POST', 
+        body: JSON.stringify(payload),
+        ...options 
+      })
+    }
+    return instance
+  },
 
-  put: <T = any>(url: string, payload?: any, options?: UseFetchOptions) =>
-    useApiRequest<T>(url, { method: 'PUT', ...options }).json(payload),
+  put: <T = any>(url: string, payload?: any, options?: UseFetchOptions) => {
+    const instance = useApiRequest<T>(url, { method: 'PUT', ...options })
+    if (payload) {
+      return useApiRequest<T>(url, { 
+        method: 'PUT', 
+        body: JSON.stringify(payload),
+        ...options 
+      })
+    }
+    return instance
+  },
 
   delete: <T = any>(url: string, options?: UseFetchOptions) =>
     useApiRequest<T>(url, { method: 'DELETE', ...options }),
 
-  patch: <T = any>(url: string, payload?: any, options?: UseFetchOptions) =>
-    useApiRequest<T>(url, { method: 'PATCH', ...options }).json(payload),
+  patch: <T = any>(url: string, payload?: any, options?: UseFetchOptions) => {
+    const instance = useApiRequest<T>(url, { method: 'PATCH', ...options })
+    if (payload) {
+      return useApiRequest<T>(url, { 
+        method: 'PATCH', 
+        body: JSON.stringify(payload),
+        ...options 
+      })
+    }
+    return instance
+  },
 }
 
 // 导出基础 fetch 供特殊需求使用

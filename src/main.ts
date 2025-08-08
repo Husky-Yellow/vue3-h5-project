@@ -16,11 +16,13 @@ app.use(pinia)
 app.use(router)
 
 // 初始化应用状态
-const appStore = useAppStore()
-const userStore = useUserStore()
+router.isReady().then(() => {
+  const appStore = useAppStore()
+  const userStore = useUserStore()
 
-appStore.initializeDevice()
-appStore.setupNetworkListener()
-userStore.initialize()
+  appStore.initializeDevice()
+  appStore.setupNetworkListener()
+  userStore.initialize()
+})
 
 app.mount('#app')
